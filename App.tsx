@@ -17,11 +17,6 @@ function App(): React.JSX.Element {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log('AppTheme', AppTheme);
-  const login = () => {
-    Alert.alert('User logged in');
-  };
-
   return (
     <SafeAreaView style={styles.background}>
       <Image

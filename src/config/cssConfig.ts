@@ -10,11 +10,30 @@ const colors = {
   'pipeline-300': '#6797BA',
   'pipeline-400': '#50788E',
   'pipeline-500': '#365360',
+
+  'coral-100': '#7ECAF4',
+  'coral-200': '#79B8DB',
+  'coral-300': '#6797BA',
+  'coral-400': '#50788E',
+  'coral-500': '#365360',
 };
 
 export const themesMap = new Map<string, ColorTheme>([
   [
     'pipeline',
+    {
+      appColor1: colors['pipeline-100'],
+      appColor2: '#FBFBFB',
+      pillColor1: '#EE8453',
+      pillColor2: '#88B8C6',
+      fontColor1: '#252429',
+      fontColor2: '#EFEFEF',
+      buttonPrimaryColor: '#252429',
+      buttonSecondaryColor: '',
+      disabledButtonColor: '',
+    } as ColorTheme,
+  ],[
+    'freight',
     {
       appColor1: colors['freight-100'],
       appColor2: '#FBFBFB',
@@ -30,7 +49,7 @@ export const themesMap = new Map<string, ColorTheme>([
   [
     'coral',
     {
-      appColor1: colors['freight-100'], // '#7ECAF4',
+      appColor1: colors['coral-100'], // '#7ECAF4',
       appColor2: '#FBFBFB',
       pillColor1: '#EE8453',
       pillColor2: '#88B8C6',

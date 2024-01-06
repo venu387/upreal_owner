@@ -15,9 +15,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-               BuildableName = "upreal.app"
-               BlueprintName = "upreal"
-               ReferencedContainer = "container:upreal.xcodeproj">
+               BuildableName = "upreal_owner.app"
+               BlueprintName = "upreal_owner"
+               ReferencedContainer = "container:upreal_owner.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -33,9 +33,9 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
-               BuildableName = "uprealTests.xctest"
-               BlueprintName = "uprealTests"
-               ReferencedContainer = "container:upreal.xcodeproj">
+               BuildableName = "upreal_ownerTests.xctest"
+               BlueprintName = "upreal_ownerTests"
+               ReferencedContainer = "container:upreal_owner.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -55,9 +55,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "upreal.app"
-            BlueprintName = "upreal"
-            ReferencedContainer = "container:upreal.xcodeproj">
+            BuildableName = "upreal_owner.app"
+            BlueprintName = "upreal_owner"
+            ReferencedContainer = "container:upreal_owner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </LaunchAction>
@@ -72,9 +72,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
-            BuildableName = "upreal.app"
-            BlueprintName = "upreal"
-            ReferencedContainer = "container:upreal.xcodeproj">
+            BuildableName = "upreal_owner.app"
+            BlueprintName = "upreal_owner"
+            ReferencedContainer = "container:upreal_owner.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>

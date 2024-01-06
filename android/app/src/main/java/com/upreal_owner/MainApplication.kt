@@ -1,4 +1,4 @@
-package com.upreal
+package com.upreal_owner
 
 import android.app.Application
 import com.facebook.react.PackageList
