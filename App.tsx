@@ -25,7 +25,7 @@ function App(): React.JSX.Element {
   return (
     <SafeAreaView style={styles.background}>
       <Image
-        source={require('./src/assets/images/upreal_owner.png')}
+        source={require('./src/assets/images/logo.png')}
         style={styles.logo}
       />
       <TextField
