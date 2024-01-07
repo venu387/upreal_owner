@@ -1,3 +1,4 @@
+import {Dispatch, UnknownAction} from '@reduxjs/toolkit';
 import {
   View,
   Button,
@@ -12,7 +13,9 @@ import {
 
 export type AppButtonProps = {
   title: string;
-  onPress: (event: GestureResponderEvent) => void | undefined;
+  onPress: (
+    event: GestureResponderEvent,
+  ) => void | undefined | Dispatch<UnknownAction> | any;
   buttonStyles?: StyleProp<ViewStyle> | undefined;
   textStyles?: StyleProp<TextStyle> | undefined;
 };

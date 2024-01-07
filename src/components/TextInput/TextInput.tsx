@@ -7,12 +7,13 @@ import {
   Text,
   KeyboardTypeOptions,
 } from 'react-native';
-import {AppTheme} from '../../config/config';
+import {AppTheme} from '../../config/cssConfig';
 
 interface TextInputProps {
   label: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>> | {(): void};
+  max?: number;
   type:
     | 'none'
     | 'URL'
@@ -60,7 +61,7 @@ interface TextInputProps {
 }
 
 export const TextField = (props: TextInputProps) => {
-  const {label, type, kbType, value, setValue} = props;
+  const {label, type, kbType, value, max, setValue} = props;
   return (
     <View style={styles.view}>
       {value && <Text>{label}</Text>}
@@ -72,6 +73,7 @@ export const TextField = (props: TextInputProps) => {
         placeholder={label}
         onChangeText={setValue}
         value={value}
+        maxLength={max}
       />
     </View>
   );

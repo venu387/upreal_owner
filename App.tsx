@@ -5,53 +5,76 @@
  * @format
  */
 
-import React, {useState} from 'react';
-import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import React, {useEffect} from 'react';
+import {AppTheme} from './src/config/cssConfig';
+import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import LoginScreen from './src/screens/authentication/LoginScreen';
+import ForgotPasswordScreen from './src/screens/authentication/ForgotPasswordScreen';
 
-import {AppTheme} from './src/config/config';
-import {TextField} from './src/components/TextInput/TextInput';
-import {AppButton} from './src/components/AppButton/AppButton';
-import {Typography} from './src/components/Typography';
+import type {RootState} from './src/store/store';
+import {useSelector, Provider, useDispatch} from 'react-redux';
+import {store} from './src/store/store';
+import {logout} from './src/store/slices/authSlice';
+
+const Stack = createNativeStackNavigator();
+
+function HomeScreen() {
+  const dispatch = useDispatch();
+  return (
+    <View>
+      <Text>Signed in!</Text>
+      <Button title="Sign out" onPress={() => dispatch(logout())} />
+    </View>
+  );
+}
+
+function RootApp(): React.JSX.Element {
+  return (
+    <Provider store={store}>
+      <App></App>
+    </Provider>
+  );
+}
 
 function App(): React.JSX.Element {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
+  console.log('isLoggedIn', isLoggedIn);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(logout());
+  }, []);
 
   return (
-    <SafeAreaView style={styles.background}>
-      <Image
-        source={require('./src/assets/images/logo.png')}
-        style={styles.logo}
-      />
-      <TextField
-        label="Email Address"
-        type={'emailAddress'}
-        kbType={'email-address'}
-        value={email}
-        setValue={setEmail}
-      />
-      <TextField
-        label="Password"
-        type={'password'}
-        kbType={'default'}
-        value={password}
-        setValue={setPassword}
-      />
-      <View style={{marginTop: 40, width: '100%'}}>
-        <AppButton
-          title={'Login'}
-          onPress={() => Alert.alert('New Login Button')}
-          buttonStyles={styles.loginButton}
-          textStyles={styles.loginText}></AppButton>
-      </View>
-      <Text
-        style={styles.forgotPassword}
-        onPress={() => {
-          Alert.alert('Forgot password');
-        }}>
-        Forgot Password
-      </Text>
-    </SafeAreaView>
+    <NavigationContainer>
+      <Stack.Navigator>
+        {!isLoggedIn ? (
+          <Stack.Screen
+            key={'Login'}
+            name="Login"
+            component={LoginScreen}
+            options={{
+              headerShown: false,
+            }}
+          />
+        ) : (
+          <Stack.Screen key={'Home'} name="Home" component={HomeScreen} />
+        )}
+        <Stack.Screen
+          key={'ForgotPassword'}
+          name="ForgotPassword"
+          component={ForgotPasswordScreen}
+          options={{
+            title: 'Reset Password',
+            headerStyle: {
+              backgroundColor: AppTheme?.appColor1,
+            },
+          }}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
@@ -88,4 +111,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+export {App, RootApp};
