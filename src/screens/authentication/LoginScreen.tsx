@@ -25,7 +25,6 @@ const LoginScreen = ({navigation}: any) => {
       setPasswordError('Please enter valid password');
     }
     if (email && password) {
-      console.log('login');
       dispatch(login({email, password}));
     }
   };

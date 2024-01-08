@@ -42,11 +42,7 @@ function RootApp(): React.JSX.Element {
 
 function App(): React.JSX.Element {
   const isLoggedIn = useSelector((state: RootState) => state.auth.isLoggedIn);
-  console.log('isLoggedIn', isLoggedIn);
-
-  // useEffect(() => {
-  //   dispatch(logout());
-  // }, []);
+  console.log('IsUserLoggedIn', isLoggedIn);
 
   return (
     <NavigationContainer>

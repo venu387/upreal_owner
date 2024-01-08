@@ -65,7 +65,6 @@ interface TextInputProps {
 export const TextField = (props: TextInputProps) => {
   const {label, type, kbType, value, max, setValue, error, icon, ...rest} =
     props;
-  console.log(error);
   return (
     <View
       style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}}>

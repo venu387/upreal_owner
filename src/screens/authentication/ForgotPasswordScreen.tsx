@@ -28,8 +28,11 @@ const ForgotPasswordScreen = ({navigation}: any) => {
   };
 
   const verifyOtp = () => {
-    console.log(otp, userOtp);
-    if (otp?.toString() === userOtp) {
+    // Check OTP expiry
+    if (otp?.expiry && new Date() > otp?.expiry) {
+      Alert.alert('OTP Expired');
+    }
+    if (otp?.code?.toString() === userOtp) {
       setCurrentStep('resetPassword');
     } else {
       Alert.alert('Wrong OTP');

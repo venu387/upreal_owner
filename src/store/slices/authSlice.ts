@@ -8,7 +8,7 @@ export interface AuthState {
   lastName: string | undefined;
   isLoggedIn: boolean | undefined;
   token: string | undefined;
-  otp: number | undefined;
+  otp: {code: number; expiry: Date} | undefined;
 }
 
 export interface RegisterUser {
@@ -64,11 +64,16 @@ export const authSlice = createSlice({
         (state.lastName = action.payload.lastName);
     },
     resetPassword: (state, action: PayloadAction<ForgotPasswordRequest>) => {
+      // Reset OTP
+      state.otp = undefined;
       // send api call to update password
       Alert.alert('Password updated');
     },
     generateOtp: state => {
-      state.otp = getRandomInt(100000, 999999);
+      state.otp = {
+        code: getRandomInt(100000, 999999),
+        expiry: addMinutes(new Date(), 5),
+      };
       console.log('otp', state.otp);
     },
   },
@@ -84,4 +89,8 @@ function getRandomInt(min: number, max: number) {
   min = Math.ceil(min);
   max = Math.floor(max);
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
+}
+
+function addMinutes(date: Date, minutes: number) {
+  return new Date(date.getTime() + minutes * 60000);
 }
