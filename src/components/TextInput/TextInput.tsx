@@ -1,4 +1,4 @@
-import React, {Dispatch, SetStateAction} from 'react';
+import React, {Dispatch, SetStateAction, useState} from 'react';
 import {
   View,
   StyleSheet,
@@ -63,11 +63,16 @@ interface TextInputProps {
 }
 
 export const TextField = (props: TextInputProps) => {
+  const [showPassword, setShowPassword] = useState(false);
   const {label, type, kbType, value, max, setValue, error, icon, ...rest} =
     props;
   return (
     <View
-      style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
+      style={{
+        flexDirection: 'row',
+        width: '100%',
+        justifyContent: 'center',
+      }}>
       {icon && (
         <Icon
           style={{
@@ -83,17 +88,29 @@ export const TextField = (props: TextInputProps) => {
       <View
         style={[
           styles.view,
-          {borderBottomColor: error ? colors['state-error'] : ''},
+          {
+            paddingBottom: value?.length > 0 ? 8 : 0,
+            borderBottomColor: error
+              ? colors['state-error']
+              : colors['slate-500'],
+          },
         ]}>
         {value && (
-          <Text style={[BaseStyle.label, error ? BaseStyle.error : {}]}>
+          <Text
+            style={[
+              BaseStyle.label,
+              BaseStyle.bold,
+              error ? BaseStyle.error : {},
+            ]}>
             {label}
           </Text>
         )}
         <TextInput
           style={[BaseStyle.textFieldInput, error ? BaseStyle.error : {}]}
           textContentType={type}
-          secureTextEntry={type === 'password' || type === 'newPassword'}
+          secureTextEntry={
+            !showPassword && (type === 'password' || type === 'newPassword')
+          }
           keyboardType={kbType}
           placeholder={label}
           placeholderTextColor={
@@ -103,6 +120,14 @@ export const TextField = (props: TextInputProps) => {
           value={value}
           maxLength={max}
         />
+        {(type === 'password' || type === 'newPassword') && (
+          <Icon
+            onPress={() => setShowPassword(!showPassword)}
+            name={showPassword ? 'eye' : 'eye-off'}
+            size={30}
+            color={AppTheme?.buttonPrimaryColor}
+            style={{position: 'absolute', right: 0, marginTop: 10}}></Icon>
+        )}
       </View>
     </View>
   );
@@ -112,7 +137,7 @@ const styles = StyleSheet.create({
   view: {
     marginTop: '5%',
     width: '80%',
-    height: 58,
+    height: 50,
     borderBottomColor: AppTheme?.fontColor2,
     borderBottomWidth: 1,
   },

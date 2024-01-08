@@ -8,7 +8,7 @@ export interface AuthState {
   lastName: string | undefined;
   isLoggedIn: boolean | undefined;
   token: string | undefined;
-  otp: {code: number; expiry: Date} | undefined;
+  otp: {code: number; expiry: number} | undefined;
 }
 
 export interface RegisterUser {
@@ -72,7 +72,7 @@ export const authSlice = createSlice({
     generateOtp: state => {
       state.otp = {
         code: getRandomInt(100000, 999999),
-        expiry: addMinutes(new Date(), 5),
+        expiry: getExpiryForOtp(new Date(), 1),
       };
       console.log('otp', state.otp);
     },
@@ -91,6 +91,6 @@ function getRandomInt(min: number, max: number) {
   return Math.floor(Math.random() * (max - min) + min); // The maximum is exclusive and the minimum is inclusive
 }
 
-function addMinutes(date: Date, minutes: number) {
-  return new Date(date.getTime() + minutes * 60000);
+function getExpiryForOtp(date: Date, minutes: number) {
+  return new Date(date.getTime() + minutes * 60000).valueOf();
 }

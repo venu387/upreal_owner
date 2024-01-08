@@ -73,7 +73,7 @@ const colors = {
   'available-100': '#CBFAD8',
 
   'bg-100': '#EFEFEF',
-  'bg-200': '#FBFBFB',
+  'bg-200': '#DBEFFD', //'#FBFBFB',
   'bg-300': '#FDFFE3',
   'bg-400': '#FFEDDD',
   'bg-placeholder': '#A5A5A5',
@@ -155,8 +155,6 @@ const BaseStyle = StyleSheet.create({
     height: 55,
     justifyContent: 'center',
     backgroundColor: AppTheme?.fontColor2,
-    borderColor: AppTheme?.buttonPrimaryColor,
-    borderWidth: 2,
     borderStyle: 'solid',
     textTransform: 'uppercase',
     fontWeight: 'bold',

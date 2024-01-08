@@ -26,6 +26,8 @@ const LoginScreen = ({navigation}: any) => {
     }
     if (email && password) {
       dispatch(login({email, password}));
+      setEmailError(undefined);
+      setPasswordError(undefined);
     }
   };
 
@@ -36,7 +38,7 @@ const LoginScreen = ({navigation}: any) => {
         style={styles.logo}
       />
       {(emailError || passwordError) && (
-        <Text style={[BaseStyle.bold, {fontSize: 16}]}>
+        <Text style={[BaseStyle.bold, {fontSize: 18, minHeight: 10}]}>
           Please enter valid credentials
         </Text>
       )}
