@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import {Alert, Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import {App} from '../../../App';
+import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {AppButton} from '../../components/AppButton/AppButton';
 import {TextField} from '../../components/TextInput/TextInput';
 import {AppTheme, BaseStyle} from '../../config/cssConfig';
@@ -11,7 +10,25 @@ const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  const [emailError, setEmailError] = useState<string | undefined>(undefined);
+  const [passwordError, setPasswordError] = useState<string | undefined>(
+    undefined,
+  );
+
   const dispatch = useDispatch();
+
+  const submit = () => {
+    if (!email) {
+      setEmailError('Please enter valid email');
+    }
+    if (!password) {
+      setPasswordError('Please enter valid password');
+    }
+    if (email && password) {
+      console.log('login');
+      dispatch(login({email, password}));
+    }
+  };
 
   return (
     <SafeAreaView style={styles.background}>
@@ -19,12 +36,19 @@ const LoginScreen = ({navigation}: any) => {
         source={require('../../assets/images/logo.png')}
         style={styles.logo}
       />
+      {(emailError || passwordError) && (
+        <Text style={[BaseStyle.bold, {fontSize: 16}]}>
+          Please enter valid credentials
+        </Text>
+      )}
       <TextField
         label="Email Address"
         type={'emailAddress'}
         kbType={'email-address'}
         value={email}
         setValue={setEmail}
+        error={emailError}
+        icon={'mail'}
       />
       <TextField
         label="Password"
@@ -32,16 +56,18 @@ const LoginScreen = ({navigation}: any) => {
         kbType={'default'}
         value={password}
         setValue={setPassword}
+        error={passwordError}
+        icon={'lock-closed'}
       />
       <View style={{marginTop: 40, width: '100%'}}>
         <AppButton
           title={'Login'}
-          onPress={() => dispatch(login({email, password}))}
+          onPress={() => submit()}
           buttonStyles={styles.loginButton}
-          textStyles={styles.loginText}></AppButton>
+          textStyles={BaseStyle.fontColorSecondary}></AppButton>
       </View>
       <Text
-        style={styles.forgotPassword}
+        style={[styles.forgotPassword, BaseStyle.fontColorPrimary]}
         onPress={() => {
           navigation.navigate({name: 'ForgotPassword'});
         }}>
@@ -58,6 +84,7 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
+    fontFamily: 'Lato-Bold',
   },
   logo: {
     width: 300,
@@ -68,13 +95,9 @@ const styles = StyleSheet.create({
     width: '80%',
     ...BaseStyle.primaryButton,
   },
-  loginText: {
-    color: AppTheme?.fontColor2,
-  },
   forgotPassword: {
     marginTop: 20,
     textDecorationLine: 'underline',
-    color: AppTheme?.fontColor1,
     fontSize: 16,
   },
 });

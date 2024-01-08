@@ -83,7 +83,7 @@ const colors = {
   'state-success': '#00CC08',
 };
 
-export const themesMap = new Map<string, ColorTheme>([
+const themesMap = new Map<string, ColorTheme>([
   [
     'pipeline',
     {
@@ -140,8 +140,8 @@ class ColorTheme {
   disabledButtonColor!: string; // Disabled button fill color
 }
 const AppTheme = themesMap.get(ConfigTheme) ?? themesMap.get('pipeline');
-export {AppTheme};
-export const BaseStyle = StyleSheet.create({
+
+const BaseStyle = StyleSheet.create({
   primaryButton: {
     height: 55,
     justifyContent: 'center',
@@ -163,4 +163,28 @@ export const BaseStyle = StyleSheet.create({
     alignSelf: 'center',
     marginTop: 30,
   },
+  textFieldInput: {
+    fontSize: 18,
+    fontFamily: 'Lato-Regular',
+  },
+  label: {
+    fontFamily: 'Lato-Regular',
+  },
+  bold: {
+    fontFamily: 'Lato-Bold',
+  },
+  italic: {
+    fontFamily: 'Lato-Italic',
+  },
+  error: {
+    color: colors['state-error'],
+  },
+  fontColorPrimary: {
+    color: AppTheme?.fontColor1,
+  },
+  fontColorSecondary: {
+    color: AppTheme?.fontColor2,
+  },
 });
+
+export {AppTheme, colors, BaseStyle};

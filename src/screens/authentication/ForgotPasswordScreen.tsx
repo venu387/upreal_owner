@@ -62,6 +62,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               kbType={'email-address'}
               value={email}
               setValue={setEmail}
+              icon="mail"
             />
           </View>
           <View style={styles.submitButtonView}>
@@ -84,6 +85,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               value={userOtp}
               setValue={setUserOtp}
               max={6}
+              icon="key"
             />
           </View>
           <View style={styles.submitButtonView}>
@@ -105,6 +107,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               kbType={'default'}
               value={password}
               setValue={setPassword}
+              icon="lock-closed"
             />
             <TextField
               label="Confirm New Password"
@@ -112,6 +115,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               kbType={'default'}
               value={newPassword}
               setValue={setNewPassword}
+              icon="lock-closed"
             />
           </View>
           <View style={styles.submitButtonView}>

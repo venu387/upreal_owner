@@ -1,13 +1,13 @@
-import React, {Dispatch, SetStateAction, useState} from 'react';
+import React, {Dispatch, SetStateAction} from 'react';
 import {
   View,
-  Image,
   StyleSheet,
   TextInput,
   Text,
   KeyboardTypeOptions,
 } from 'react-native';
-import {AppTheme} from '../../config/cssConfig';
+import {colors, AppTheme, BaseStyle} from '../../config/cssConfig';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 interface TextInputProps {
   label: string;
@@ -58,36 +58,63 @@ interface TextInputProps {
     | 'birthdateYear'
     | undefined;
   kbType: KeyboardTypeOptions | undefined;
+  error?: string;
+  icon?: string;
 }
 
 export const TextField = (props: TextInputProps) => {
-  const {label, type, kbType, value, max, setValue} = props;
+  const {label, type, kbType, value, max, setValue, error, icon, ...rest} =
+    props;
+  console.log(error);
   return (
-    <View style={styles.view}>
-      {value && <Text>{label}</Text>}
-      <TextInput
-        style={styles.textInput}
-        textContentType={type}
-        secureTextEntry={type === 'password' || type === 'newPassword'}
-        keyboardType={kbType}
-        placeholder={label}
-        onChangeText={setValue}
-        value={value}
-        maxLength={max}
-      />
+    <View
+      style={{flexDirection: 'row', width: '100%', justifyContent: 'center'}}>
+      {icon && (
+        <Icon
+          style={{
+            verticalAlign: 'bottom',
+            marginRight: 10,
+            marginBottom: 10,
+          }}
+          name={icon}
+          size={30}
+          color={AppTheme?.buttonPrimaryColor}
+        />
+      )}
+      <View
+        style={[
+          styles.view,
+          {borderBottomColor: error ? colors['state-error'] : ''},
+        ]}>
+        {value && (
+          <Text style={[BaseStyle.label, error ? BaseStyle.error : {}]}>
+            {label}
+          </Text>
+        )}
+        <TextInput
+          style={[BaseStyle.textFieldInput, error ? BaseStyle.error : {}]}
+          textContentType={type}
+          secureTextEntry={type === 'password' || type === 'newPassword'}
+          keyboardType={kbType}
+          placeholder={label}
+          placeholderTextColor={
+            error ? colors['state-error'] : AppTheme?.fontColor1
+          }
+          onChangeText={setValue}
+          value={value}
+          maxLength={max}
+        />
+      </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  textInput: {
-    fontSize: 18,
-  },
   view: {
     marginTop: '5%',
-    width: '90%',
+    width: '80%',
     height: 58,
-    borderBottomColor: AppTheme?.fontColor1,
+    borderBottomColor: AppTheme?.fontColor2,
     borderBottomWidth: 1,
   },
 });
