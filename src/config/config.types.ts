@@ -20,5 +20,10 @@ const enum IconSize {
   xlarge = 40,
 }
 
-export {ColorTheme, IconSize};
+const enum IconType {
+  ion = 1,
+  matcom = 2,
+}
+
+export {ColorTheme, IconSize, IconType};
 export type {Theme};

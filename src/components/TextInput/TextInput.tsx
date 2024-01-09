@@ -8,7 +8,9 @@ import {
 } from 'react-native';
 import {colors, AppTheme, BaseStyle} from '@upreal/config/cssConfig';
 import Icon from 'react-native-vector-icons/Ionicons';
-import {IconSize} from '@upreal/config/config.types';
+import {IconSize, IconType} from '@upreal/config/config.types';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {UpRealIcon} from '@upreal/components/UpRealIcon/UpRealIcon';
 
 export type TextInputProps = {
   label: string;
@@ -60,7 +62,7 @@ export type TextInputProps = {
     | undefined;
   kbType: KeyboardTypeOptions | undefined;
   error?: string;
-  icon?: string;
+  icon?: {name: string; type: IconType};
 };
 
 export const TextField = (props: TextInputProps) => {
@@ -75,16 +77,19 @@ export const TextField = (props: TextInputProps) => {
         justifyContent: 'center',
       }}>
       {icon && (
-        <Icon
-          style={{
-            verticalAlign: 'bottom',
-            marginRight: 10,
-            marginBottom: 12,
-          }}
-          name={icon}
-          size={IconSize.small}
-          color={AppTheme?.buttonPrimaryColor}
-        />
+        <>
+          <UpRealIcon
+            style={{
+              verticalAlign: 'bottom',
+              marginRight: 10,
+              marginBottom: 12,
+            }}
+            name={icon.name}
+            size={IconSize.small}
+            color={AppTheme?.buttonPrimaryColor}
+            type={icon.type}
+          />
+        </>
       )}
       <View
         style={[

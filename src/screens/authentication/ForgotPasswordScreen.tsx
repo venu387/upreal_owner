@@ -8,6 +8,7 @@ import {AppTheme} from '@upreal/config/cssConfig';
 import {RootState} from '@upreal/store/store';
 import {BaseStyle} from '@upreal/config/cssConfig';
 import React from 'react';
+import {IconType} from '@upreal/config/config.types';
 
 const ForgotPasswordScreen = ({navigation}: any) => {
   const [currentStep, setCurrentStep] = useState<
@@ -67,7 +68,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               kbType={'email-address'}
               value={email}
               setValue={setEmail}
-              icon="mail"
+              icon={{name: 'mail', type: IconType.ion}}
             />
           </View>
           <View style={styles.submitButtonView}>
@@ -90,7 +91,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               value={userOtp}
               setValue={setUserOtp}
               max={6}
-              icon="key"
+              icon={{name: 'key', type: IconType.ion}}
             />
           </View>
           <View style={styles.submitButtonView}>
@@ -112,7 +113,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               kbType={'default'}
               value={password}
               setValue={setPassword}
-              icon="lock-closed"
+              icon={{name: 'lock-closed', type: IconType.ion}}
             />
             <TextField
               label="Confirm New Password"
@@ -120,7 +121,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
               kbType={'default'}
               value={newPassword}
               setValue={setNewPassword}
-              icon="lock-closed"
+              icon={{name: 'lock-closed', type: IconType.ion}}
             />
           </View>
           <View style={styles.submitButtonView}>

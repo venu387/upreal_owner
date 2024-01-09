@@ -6,6 +6,7 @@ import {AppTheme, BaseStyle} from '@upreal/config/cssConfig';
 import {useDispatch} from 'react-redux';
 import {Typography} from '@upreal/components/Typography';
 import {login} from '../../store/slices/authSlice';
+import {IconType} from '@upreal/config/config.types';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
@@ -50,7 +51,7 @@ const LoginScreen = ({navigation}: any) => {
         value={email}
         setValue={setEmail}
         error={emailError}
-        icon={'mail'}
+        icon={{name: 'mail', type: IconType.ion}}
       />
       <TextField
         label="Password"
@@ -59,7 +60,7 @@ const LoginScreen = ({navigation}: any) => {
         value={password}
         setValue={setPassword}
         error={passwordError}
-        icon={'lock-closed'}
+        icon={{name: 'lock-closed', type: IconType.ion}}
       />
       <View style={{marginTop: 40, width: '100%'}}>
         <AppButton
