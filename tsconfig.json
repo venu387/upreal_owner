@@ -1,3 +1,21 @@
 {
-  "extends": "@react-native/typescript-config/tsconfig.json"
+  "extends": "@react-native/typescript-config/tsconfig.json",
+  "compilerOptions": {
+    "allowJs": true,
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "isolatedModules": true,
+    "jsx": "react",
+    "lib": ["es2015", "es2015.promise", "es2016.array.include", "dom"],
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@upreal/*": ["src/*/index", "src/*"]
+    },
+    "noEmit": true,
+    "resolveJsonModule": true,
+    "target": "esnext",
+    "types": ["jest"]
+  },
+  "include": ["src", "**/*.ts"]
 }

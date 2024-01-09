@@ -1,5 +1,6 @@
 import {StyleSheet} from 'react-native';
 import {ConfigTheme} from './config';
+import {ColorTheme} from './config.types';
 
 const colors = {
   'freight-100': '#EED34B',
@@ -127,18 +128,6 @@ const themesMap = new Map<string, ColorTheme>([
     } as ColorTheme,
   ],
 ]);
-
-class ColorTheme {
-  appColor1!: string; // Login page bg color, Header color. This is the primary color of the app and its logo
-  appColor2!: string; // Color of the background in rest of the pages other than Login page
-  pillColor1!: string; // Color used for important property features
-  pillColor2!: string; // Color used for secondary property features
-  fontColor1!: string; // Primary font color
-  fontColor2!: string; // Contrast font color
-  buttonPrimaryColor!: string; // Primary button fill color
-  buttonSecondaryColor!: string; // Secondary button fill color
-  disabledButtonColor!: string; // Disabled button fill color
-}
 const AppTheme = themesMap.get(ConfigTheme) ?? themesMap.get('pipeline');
 
 const BaseStyle = StyleSheet.create({

@@ -6,10 +6,11 @@ import {
   Text,
   KeyboardTypeOptions,
 } from 'react-native';
-import {colors, AppTheme, BaseStyle} from '../../config/cssConfig';
+import {colors, AppTheme, BaseStyle} from '@upreal/config/cssConfig';
 import Icon from 'react-native-vector-icons/Ionicons';
+import {IconSize} from '@upreal/config/config.types';
 
-interface TextInputProps {
+export type TextInputProps = {
   label: string;
   value: string;
   setValue: Dispatch<SetStateAction<string>> | {(): void};
@@ -60,7 +61,7 @@ interface TextInputProps {
   kbType: KeyboardTypeOptions | undefined;
   error?: string;
   icon?: string;
-}
+};
 
 export const TextField = (props: TextInputProps) => {
   const [showPassword, setShowPassword] = useState(false);
@@ -78,10 +79,10 @@ export const TextField = (props: TextInputProps) => {
           style={{
             verticalAlign: 'bottom',
             marginRight: 10,
-            marginBottom: 10,
+            marginBottom: 12,
           }}
           name={icon}
-          size={30}
+          size={IconSize.small}
           color={AppTheme?.buttonPrimaryColor}
         />
       )}
@@ -124,7 +125,7 @@ export const TextField = (props: TextInputProps) => {
           <Icon
             onPress={() => setShowPassword(!showPassword)}
             name={showPassword ? 'eye' : 'eye-off'}
-            size={30}
+            size={IconSize.small}
             color={AppTheme?.buttonPrimaryColor}
             style={{position: 'absolute', right: 0, marginTop: 10}}></Icon>
         )}

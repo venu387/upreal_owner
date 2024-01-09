@@ -1,12 +1,13 @@
 import {useState} from 'react';
 import {SafeAreaView, View, Text, StyleSheet, Alert} from 'react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppButton} from '../../components/AppButton/AppButton';
-import {TextField} from '../../components/TextInput/TextInput';
+import {AppButton} from '@upreal/components/AppButton/AppButton';
+import {TextField} from '@upreal/components/TextInput/TextInput';
 import {resetPassword, generateOtp} from '../../store/slices/authSlice';
-import {AppTheme} from '../../config/cssConfig';
-import {RootState} from '../../store/store';
-import {BaseStyle} from '../../config/cssConfig';
+import {AppTheme} from '@upreal/config/cssConfig';
+import {RootState} from '@upreal/store/store';
+import {BaseStyle} from '@upreal/config/cssConfig';
+import React from 'react';
 
 const ForgotPasswordScreen = ({navigation}: any) => {
   const [currentStep, setCurrentStep] = useState<

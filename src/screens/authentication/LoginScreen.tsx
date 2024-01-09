@@ -1,9 +1,10 @@
 import React, {useState} from 'react';
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
-import {AppButton} from '../../components/AppButton/AppButton';
-import {TextField} from '../../components/TextInput/TextInput';
-import {AppTheme, BaseStyle} from '../../config/cssConfig';
+import {AppButton} from '@upreal/components/AppButton/AppButton';
+import {TextField} from '@upreal/components/TextInput/TextInput';
+import {AppTheme, BaseStyle} from '@upreal/config/cssConfig';
 import {useDispatch} from 'react-redux';
+import {Typography} from '@upreal/components/Typography';
 import {login} from '../../store/slices/authSlice';
 
 const LoginScreen = ({navigation}: any) => {
@@ -34,7 +35,7 @@ const LoginScreen = ({navigation}: any) => {
   return (
     <SafeAreaView style={styles.background}>
       <Image
-        source={require('../../assets/images/logo.png')}
+        source={require('@upreal/assets/images/logo.png')}
         style={styles.logo}
       />
       {(emailError || passwordError) && (
@@ -67,13 +68,12 @@ const LoginScreen = ({navigation}: any) => {
           buttonStyles={styles.loginButton}
           textStyles={BaseStyle.fontColorSecondary}></AppButton>
       </View>
-      <Text
-        style={[styles.forgotPassword, BaseStyle.fontColorPrimary]}
-        onPress={() => {
-          navigation.navigate({name: 'ForgotPassword'});
-        }}>
+      <Typography
+        variant="link"
+        styles={styles.forgotPassword}
+        onPress={() => navigation.navigate('ForgotPassword')}>
         Forgot Password
-      </Text>
+      </Typography>
     </SafeAreaView>
   );
 };
@@ -97,9 +97,7 @@ const styles = StyleSheet.create({
     ...BaseStyle.primaryButton,
   },
   forgotPassword: {
-    marginTop: 20,
-    textDecorationLine: 'underline',
-    fontSize: 16,
+    marginTop: 30,
   },
 });
 
