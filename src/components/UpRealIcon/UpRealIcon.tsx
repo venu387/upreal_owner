@@ -17,7 +17,7 @@ export const UpRealIcon = (props: UpRealIconProps) => {
   const {name, size, color, style, type} = props;
   return (
     <>
-      {type === IconType.ion && (
+      {type === IconType.icon && (
         <Icon style={style} name={name} size={size} color={color} />
       )}
       {type === IconType.matcom && (
