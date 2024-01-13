@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "712412184353",
+    "project_id": "upreal-26f2e",
+    "storage_bucket": "upreal-26f2e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:712412184353:android:7b26359333435c51b58860",
+        "android_client_info": {
+          "package_name": "com.upreal_owner"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA2fP_Cx7C24YPpcHkLP7ynXfnBdeTVbUY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

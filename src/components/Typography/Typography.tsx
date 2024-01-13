@@ -193,10 +193,10 @@ export type TypographyVariant =
   | 'link';
 
 export interface TypographyProps {
-  children: React.ReactNode | undefined;
+  children?: React.ReactNode | undefined;
   styles?: {};
   variant: TypographyVariant;
-  onPress: any;
+  onPress?: any;
 }
 
 export const Typography = (props: TypographyProps) => {

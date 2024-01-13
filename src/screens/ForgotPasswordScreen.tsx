@@ -1,14 +1,14 @@
 import {useState} from 'react';
 import {SafeAreaView, View, Text, StyleSheet, Alert} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
 import {AppButton} from '@upreal/components/AppButton/AppButton';
 import {TextField} from '@upreal/components/TextInput/TextInput';
-import {resetPassword, generateOtp} from '../../store/slices/authSlice';
+import {resetPassword, generateOtp, AuthState} from '../store/slices/authSlice';
 import {AppTheme} from '@upreal/config/cssConfig';
 import {RootState} from '@upreal/store/store';
 import {BaseStyle} from '@upreal/config/cssConfig';
 import React from 'react';
 import {IconType} from '@upreal/config/config.types';
+import {useAppDispatch, useAppSelector} from '@upreal/store/hooks';
 
 const ForgotPasswordScreen = ({navigation}: any) => {
   const [currentStep, setCurrentStep] = useState<
@@ -19,8 +19,9 @@ const ForgotPasswordScreen = ({navigation}: any) => {
   const [password, setPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
 
-  const {otp} = useSelector((state: RootState) => state.auth);
-  const dispatch = useDispatch();
+  const {otp} = useAppSelector((state: RootState) => state.auth);
+
+  const dispatch = useAppDispatch();
 
   const sendOtp = () => {
     dispatch(generateOtp());

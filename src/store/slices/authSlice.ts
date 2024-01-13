@@ -1,30 +1,27 @@
 import {createSlice} from '@reduxjs/toolkit';
 import type {PayloadAction} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
+import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
+import {RootState} from '../store';
 
 export interface AuthState {
+  user: {userInfo: UserInfo} | undefined;
+  otp: {code: number; expiry: number} | undefined;
+  isLoggedIn: boolean | undefined;
+}
+
+export type UserInfo = {
   email: string | undefined;
   firstName: string | undefined;
   lastName: string | undefined;
-  isLoggedIn: boolean | undefined;
-  token: string | undefined;
-  otp: {code: number; expiry: number} | undefined;
-}
+};
 
 export interface RegisterUser {
-  email: string | undefined;
-  firstName: string | undefined;
-  lastName: string | undefined;
+  email: string;
+  firstName: string;
+  lastName: string;
+  password: string;
 }
-
-const initialState: AuthState = {
-  email: undefined,
-  firstName: undefined,
-  lastName: undefined,
-  isLoggedIn: undefined,
-  token: undefined,
-  otp: undefined,
-};
 
 export interface LoginUser {
   email: string;
@@ -36,32 +33,74 @@ export interface ForgotPasswordRequest {
   newPassword: string;
 }
 
+const initialState: AuthState = {
+  user: undefined,
+  otp: undefined,
+  isLoggedIn: undefined,
+};
+
 export const authSlice = createSlice({
   name: 'auth',
   initialState,
   reducers: {
-    login: (state, action: PayloadAction<LoginUser>) => {
+    login: (
+      state,
+      action: PayloadAction<{
+        userInfo: UserInfo;
+      }>,
+    ) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
       // doesn't actually mutate the state because it uses the Immer library,
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
-      if (
-        action.payload.email == 'admin@test.com' &&
-        action.payload.password === 'test'
-      ) {
-        state.isLoggedIn = true;
+      if (action.payload.userInfo) {
+        state.user = {
+          userInfo: action.payload.userInfo,
+        };
+        state.isLoggedIn = !!state.user;
       } else {
-        state.isLoggedIn = false;
+        state.user = undefined;
+        state.isLoggedIn = !!state.user;
       }
-      Alert.alert('Login ' + (state.isLoggedIn ? 'success' : 'failed'));
     },
     logout: state => {
-      state.isLoggedIn = false;
+      state.user = undefined;
+      state.isLoggedIn = !!state.user;
     },
     register: (state, action: PayloadAction<RegisterUser>) => {
-      (state.email = action.payload.email),
-        (state.firstName = action.payload.firstName),
-        (state.lastName = action.payload.lastName);
+      auth()
+        .createUserWithEmailAndPassword(
+          action.payload.email!,
+          action.payload.password!,
+        )
+        .then(userCred => {
+          console.log(userCred);
+          // Call backend API to insert user info to db
+
+          // Send verificaiton email
+          auth()
+            .currentUser?.sendEmailVerification()
+            .then(() => {
+              console.log('Verification email sent');
+            });
+          state.isLoggedIn = true;
+          auth()
+            .currentUser?.getIdToken()
+            .then(jwt => {
+              state.user = {
+                userInfo: {
+                  email: userCred.user.email!,
+                  firstName: userCred.user.displayName!,
+                  lastName: '',
+                },
+              };
+            });
+        })
+        .catch(err => {
+          console.log(err);
+          state.isLoggedIn = false;
+          state.user = undefined;
+        });
     },
     resetPassword: (state, action: PayloadAction<ForgotPasswordRequest>) => {
       // Reset OTP
@@ -82,6 +121,9 @@ export const authSlice = createSlice({
 // Action creators are generated for each case reducer function
 export const {login, logout, register, resetPassword, generateOtp} =
   authSlice.actions;
+
+// Other code such as selectors can use the imported `RootState` type
+export const selectCount = (state: RootState) => state.auth.isLoggedIn;
 
 export default authSlice.reducer;
 

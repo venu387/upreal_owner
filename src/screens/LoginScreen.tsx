@@ -1,37 +1,49 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Image, SafeAreaView, StyleSheet, Text, View} from 'react-native';
 import {AppButton} from '@upreal/components/AppButton/AppButton';
 import {TextField} from '@upreal/components/TextInput/TextInput';
 import {AppTheme, BaseStyle} from '@upreal/config/cssConfig';
-import {useDispatch} from 'react-redux';
 import {Typography} from '@upreal/components/Typography';
-import {login} from '../../store/slices/authSlice';
+import {login} from '../store/slices/authSlice';
 import {IconType} from '@upreal/config/config.types';
+import {useAppDispatch} from '@upreal/store/hooks';
+import {loginUser, logoutUser} from '@upreal/api/auth';
 
 const LoginScreen = ({navigation}: any) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
-  const [emailError, setEmailError] = useState<string | undefined>(undefined);
-  const [passwordError, setPasswordError] = useState<string | undefined>(
-    undefined,
-  );
+  const [error, setError] = useState<string | undefined>(undefined);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const submit = () => {
-    if (!email) {
-      setEmailError('Please enter valid email');
-    }
-    if (!password) {
-      setPasswordError('Please enter valid password');
-    }
+  const submit = async () => {
     if (email && password) {
-      dispatch(login({email, password}));
-      setEmailError(undefined);
-      setPasswordError(undefined);
+      const res = await loginUser(email, password);
+      console.log('res', res);
+
+      if (!res?.error) {
+        dispatch(
+          login({
+            userInfo: {
+              email: res?.userInfo?.email!,
+              firstName: res?.userInfo?.firstName!,
+              lastName: res?.userInfo?.lastName!,
+            },
+          }),
+        );
+      } else {
+        // Show toaster
+        setError(res.error);
+      }
+    } else {
+      setError('Enter email and password');
     }
   };
+
+  useEffect(() => {
+    logoutUser();
+  }, []);
 
   return (
     <SafeAreaView style={styles.background}>
@@ -39,9 +51,13 @@ const LoginScreen = ({navigation}: any) => {
         source={require('@upreal/assets/images/logo.png')}
         style={styles.logo}
       />
-      {(emailError || passwordError) && (
-        <Text style={[BaseStyle.bold, {fontSize: 18, minHeight: 10}]}>
-          Please enter valid credentials
+      {error && (
+        <Text
+          style={[
+            BaseStyle.error,
+            {fontSize: 16, minHeight: 10, paddingHorizontal: 10},
+          ]}>
+          {error}
         </Text>
       )}
       <TextField
@@ -50,7 +66,6 @@ const LoginScreen = ({navigation}: any) => {
         kbType={'email-address'}
         value={email}
         setValue={setEmail}
-        error={emailError}
         icon={{name: 'mail', type: IconType.ion}}
       />
       <TextField
@@ -59,7 +74,6 @@ const LoginScreen = ({navigation}: any) => {
         kbType={'default'}
         value={password}
         setValue={setPassword}
-        error={passwordError}
         icon={{name: 'lock-closed', type: IconType.ion}}
       />
       <View style={{marginTop: 40, width: '100%'}}>

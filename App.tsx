@@ -11,8 +11,9 @@ import {Button, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import LoginScreen from './src/screens/authentication/LoginScreen';
-import ForgotPasswordScreen from './src/screens/authentication/ForgotPasswordScreen';
+import LoginScreen from './src/screens/LoginScreen';
+import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
+import MyPropertiesScreen from './src/screens/MyPropertiesScreen';
 
 import type {RootState} from './src/store/store';
 import {useSelector, Provider, useDispatch} from 'react-redux';
@@ -50,15 +51,14 @@ function App(): React.JSX.Element {
         {!isLoggedIn ? (
           <Stack.Group>
             <Stack.Screen
-              key={'Login'}
               name="Login"
               component={LoginScreen}
               options={{
                 headerShown: false,
+                headerTitleStyle: {fontSize: 20},
               }}
             />
             <Stack.Screen
-              key={'ForgotPassword'}
               name="ForgotPassword"
               component={ForgotPasswordScreen}
               options={{
@@ -71,17 +71,11 @@ function App(): React.JSX.Element {
           </Stack.Group>
         ) : (
           <Stack.Screen
-            key={'Home'}
             name="Home"
-            component={HomeScreen}
+            component={MyPropertiesScreen}
             options={{
               title: '',
-              headerLeft: () => (
-                <View style={{width: 24}}>
-                  <Image
-                    source={require('./src/assets/images/logo_small.png')}></Image>
-                </View>
-              ),
+              headerLeft: () => headerLogo(),
               headerStyle: {
                 backgroundColor: AppTheme?.appColor1,
               },
@@ -127,3 +121,11 @@ const styles = StyleSheet.create({
 });
 
 export {App, RootApp};
+
+function headerLogo(): React.ReactNode {
+  return (
+    <View style={{width: 24}}>
+      <Image source={require('./src/assets/images/logo_small.png')}></Image>
+    </View>
+  );
+}
