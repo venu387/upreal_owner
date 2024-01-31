@@ -9,7 +9,7 @@ type UpRealIconProps = {
   name: string;
   size: IconSize;
   color?: string;
-  style: StyleProp<TextStyle>;
+  style?: StyleProp<TextStyle>;
   type: IconType; // IonIcons, MaterialCommunityIcons
 };
 
@@ -17,7 +17,7 @@ export const UpRealIcon = (props: UpRealIconProps) => {
   const {name, size, color, style, type} = props;
   return (
     <>
-      {type === IconType.icon && (
+      {type === IconType.ion && (
         <Icon style={style} name={name} size={size} color={color} />
       )}
       {type === IconType.matcom && (

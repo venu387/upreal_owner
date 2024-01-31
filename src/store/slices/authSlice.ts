@@ -3,29 +3,13 @@ import type {PayloadAction} from '@reduxjs/toolkit';
 import {Alert} from 'react-native';
 import auth, {FirebaseAuthTypes} from '@react-native-firebase/auth';
 import {RootState} from '../store';
+import {UserDto} from '@upreal/api/user.types';
+import {getUnixDate} from '@upreal/util/date-helper';
 
 export interface AuthState {
-  user: {userInfo: UserInfo} | undefined;
+  user: UserDto | undefined;
   otp: {code: number; expiry: number} | undefined;
   isLoggedIn: boolean | undefined;
-}
-
-export type UserInfo = {
-  email: string | undefined;
-  firstName: string | undefined;
-  lastName: string | undefined;
-};
-
-export interface RegisterUser {
-  email: string;
-  firstName: string;
-  lastName: string;
-  password: string;
-}
-
-export interface LoginUser {
-  email: string;
-  password: string;
 }
 
 export interface ForgotPasswordRequest {
@@ -46,7 +30,7 @@ export const authSlice = createSlice({
     login: (
       state,
       action: PayloadAction<{
-        userInfo: UserInfo;
+        userInfo: UserDto;
       }>,
     ) => {
       // Redux Toolkit allows us to write "mutating" logic in reducers. It
@@ -54,9 +38,7 @@ export const authSlice = createSlice({
       // which detects changes to a "draft state" and produces a brand new
       // immutable state based off those changes
       if (action.payload.userInfo) {
-        state.user = {
-          userInfo: action.payload.userInfo,
-        };
+        state.user = action.payload.userInfo;
         state.isLoggedIn = !!state.user;
       } else {
         state.user = undefined;
@@ -66,41 +48,6 @@ export const authSlice = createSlice({
     logout: state => {
       state.user = undefined;
       state.isLoggedIn = !!state.user;
-    },
-    register: (state, action: PayloadAction<RegisterUser>) => {
-      auth()
-        .createUserWithEmailAndPassword(
-          action.payload.email!,
-          action.payload.password!,
-        )
-        .then(userCred => {
-          console.log(userCred);
-          // Call backend API to insert user info to db
-
-          // Send verificaiton email
-          auth()
-            .currentUser?.sendEmailVerification()
-            .then(() => {
-              console.log('Verification email sent');
-            });
-          state.isLoggedIn = true;
-          auth()
-            .currentUser?.getIdToken()
-            .then(jwt => {
-              state.user = {
-                userInfo: {
-                  email: userCred.user.email!,
-                  firstName: userCred.user.displayName!,
-                  lastName: '',
-                },
-              };
-            });
-        })
-        .catch(err => {
-          console.log(err);
-          state.isLoggedIn = false;
-          state.user = undefined;
-        });
     },
     resetPassword: (state, action: PayloadAction<ForgotPasswordRequest>) => {
       // Reset OTP
@@ -119,8 +66,7 @@ export const authSlice = createSlice({
 });
 
 // Action creators are generated for each case reducer function
-export const {login, logout, register, resetPassword, generateOtp} =
-  authSlice.actions;
+export const {login, logout, resetPassword, generateOtp} = authSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type
 export const selectCount = (state: RootState) => state.auth.isLoggedIn;

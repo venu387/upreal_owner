@@ -5,38 +5,44 @@
  * @format
  */
 
-import React, {useEffect} from 'react';
+import React from 'react';
 import {AppTheme} from './src/config/cssConfig';
-import {Button, Dimensions, Image, StyleSheet, Text, View} from 'react-native';
+import {Button, Image, StyleSheet, Text, View} from 'react-native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createDrawerNavigator} from '@react-navigation/drawer';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import LoginScreen from './src/screens/LoginScreen';
+import SignUpScreen from './src/screens/SignUpScreen';
 import ForgotPasswordScreen from './src/screens/ForgotPasswordScreen';
 import MyPropertiesScreen from './src/screens/MyPropertiesScreen';
 
 import type {RootState} from './src/store/store';
 import {useSelector, Provider, useDispatch} from 'react-redux';
-import {store} from './src/store/store';
-import {logout} from './src/store/slices/authSlice';
+import {store, logout} from './src/store';
+import {ToastProvider} from 'react-native-toast-notifications';
+import Toaster from './src/components/Toaster/Toaster';
 
 const Stack = createNativeStackNavigator();
-const Drawer = createDrawerNavigator();
-
-function HomeScreen() {
-  const dispatch = useDispatch();
-  return (
-    <View>
-      <Text>Signed in!</Text>
-      <Button title="Sign out" onPress={() => dispatch(logout())} />
-    </View>
-  );
-}
 
 function RootApp(): React.JSX.Element {
   return (
     <Provider store={store}>
-      <App></App>
+      <ToastProvider
+        placement="top"
+        duration={5000}
+        animationType="zoom-in"
+        animationDuration={250}
+        textStyle={{fontSize: 20}}
+        offsetTop={20}
+        offsetBottom={40}
+        swipeEnabled={true}
+        renderToast={_toastOptions => (
+          <Toaster
+            title={_toastOptions.message}
+            type={_toastOptions.type}></Toaster>
+        )}>
+        <App />
+      </ToastProvider>
     </Provider>
   );
 }
@@ -51,11 +57,10 @@ function App(): React.JSX.Element {
         {!isLoggedIn ? (
           <Stack.Group>
             <Stack.Screen
-              name="Login"
+              name="LogIn"
               component={LoginScreen}
               options={{
                 headerShown: false,
-                headerTitleStyle: {fontSize: 20},
               }}
             />
             <Stack.Screen
@@ -68,6 +73,12 @@ function App(): React.JSX.Element {
                 },
               }}
             />
+            <Stack.Screen
+              name="SignUp"
+              component={SignUpScreen}
+              options={{
+                headerShown: false,
+              }}></Stack.Screen>
           </Stack.Group>
         ) : (
           <Stack.Screen
@@ -86,39 +97,6 @@ function App(): React.JSX.Element {
     </NavigationContainer>
   );
 }
-
-const styles = StyleSheet.create({
-  background: {
-    backgroundColor: AppTheme?.appColor1,
-    minHeight: '100%',
-    flex: 1,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  logo: {
-    width: 300,
-    height: 90,
-    marginBottom: 35,
-  },
-  loginButton: {
-    width: '80%',
-    height: 55,
-    justifyContent: 'center',
-    backgroundColor: AppTheme?.buttonPrimaryColor,
-    textTransform: 'uppercase',
-    fontWeight: 'bold',
-    alignSelf: 'center',
-  },
-  loginText: {
-    color: AppTheme?.fontColor2,
-  },
-  forgotPassword: {
-    marginTop: 20,
-    textDecorationLine: 'underline',
-    color: AppTheme?.fontColor1,
-    fontSize: 16,
-  },
-});
 
 export {App, RootApp};
 

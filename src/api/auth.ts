@@ -1,4 +1,6 @@
 import {firebase} from '@react-native-firebase/auth';
+import {createUser, getCurrentUser, updateUser} from './user';
+import {RegisterUser, UserDto} from './user.types';
 
 const loginUser = async (email: string, password: string) => {
   // Call firebase to signin user
@@ -7,20 +9,55 @@ const loginUser = async (email: string, password: string) => {
       .auth()
       .signInWithEmailAndPassword(email, password);
 
-    return {
-      userInfo: {
-        email: authResponse?.user.email!,
-        firstName: authResponse?.user.displayName!,
-        lastName: '',
-      },
-    };
+    if (!authResponse?.user) {
+      return {
+        error: 'Generic error occurred',
+      };
+    }
+    // Call API to get user info
+    let user = await getCurrentUser();
 
-    // TO-DO: Call API to get user info
+    if (user.emailVerified !== authResponse.user.emailVerified) {
+      user.emailVerified = authResponse.user.emailVerified;
+      user = await updateUser(user);
+    }
+    return user;
+  } catch (error: any) {
+    console.log(error);
+    return {
+      error: 'Failed to login',
+      //error: `${errorCodeMap.get(error.code) ?? error.message ?? 'Generic Error'}`,
+    };
+  }
+};
+
+const signupUser = async (req: RegisterUser) => {
+  // Call firebase to create user
+  try {
+    const authResponse = await firebase
+      .auth()
+      .createUserWithEmailAndPassword(req.email, req.password);
+
+    if (!authResponse?.user) {
+      return {
+        error: 'Generic error occurred',
+      };
+    }
+
+    // Call API to create user
+    const user: UserDto = {
+      email: req.email,
+      emailVerified: false,
+      firstName: req.firstName,
+      lastName: req.lastName,
+      isActive: true,
+      uid: authResponse.user.uid,
+    };
+    return await createUser(user);
   } catch (error: any) {
     return {
-      error: `${
-        errorCodeMap.get(error.code) ?? error.message ?? 'Generic Error'
-      }`,
+      error: 'Failed to create user account',
+      //error: `${errorCodeMap.get(error.code) ?? error.message ?? 'Generic Error'}`,
     };
   }
 };
@@ -31,9 +68,8 @@ const logoutUser = async () => {
     await firebase.auth().signOut();
   } catch (error: any) {
     return {
-      error: `${
-        errorCodeMap.get(error.code) ?? error.message ?? 'Generic Error'
-      }`,
+      error: 'Failed to logout',
+      //error: `${errorCodeMap.get(error.code) ?? error.message ?? 'Generic Error'}`,
     };
   }
 };
@@ -517,4 +553,4 @@ const errorCodeMap = new Map<string, string>([
   ],
 ]);
 
-export {loginUser, logoutUser};
+export {loginUser, logoutUser, signupUser};

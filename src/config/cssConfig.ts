@@ -74,14 +74,14 @@ const colors = {
   'available-100': '#CBFAD8',
 
   'bg-100': '#EFEFEF',
-  'bg-200': '#DBEFFD', //'#FBFBFB',
+  'bg-200': '#EDF8FF', //'#DBEFFD', //'#FBFBFB',
   'bg-300': '#FDFFE3',
   'bg-400': '#FFEDDD',
   'bg-placeholder': '#A5A5A5',
 
-  'state-error': '#FF2A2A',
-  'state-warning': '#FF9F2E',
-  'state-success': '#00CC08',
+  'state-error': '#FF6969',
+  'state-warning': '#FFB156',
+  'state-success': '#00A400',
 };
 
 const themesMap = new Map<string, ColorTheme>([
@@ -131,16 +131,26 @@ const themesMap = new Map<string, ColorTheme>([
 const AppTheme = themesMap.get(ConfigTheme) ?? themesMap.get('pipeline');
 
 const BaseStyle = StyleSheet.create({
+  background: {
+    backgroundColor: AppTheme?.appColor1,
+    minHeight: '100%',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    fontFamily: 'Lato-Bold',
+  },
   primaryButton: {
+    width: '80%',
     height: 55,
     justifyContent: 'center',
     backgroundColor: AppTheme?.buttonPrimaryColor,
     textTransform: 'uppercase',
     fontWeight: 'bold',
     alignSelf: 'center',
-    marginTop: 30,
+    marginVertical: 2,
   },
   secondraryButton: {
+    width: '80%',
     height: 55,
     justifyContent: 'center',
     backgroundColor: AppTheme?.fontColor2,
@@ -148,7 +158,7 @@ const BaseStyle = StyleSheet.create({
     textTransform: 'uppercase',
     fontWeight: 'bold',
     alignSelf: 'center',
-    marginTop: 30,
+    marginVertical: 2,
   },
   textFieldInput: {
     fontSize: 18,

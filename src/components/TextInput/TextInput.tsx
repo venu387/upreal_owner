@@ -75,6 +75,7 @@ export const TextField = (props: TextInputProps) => {
         flexDirection: 'row',
         width: '100%',
         justifyContent: 'center',
+        marginBottom: 5,
       }}>
       {icon && (
         <>
