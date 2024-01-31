@@ -4,8 +4,16 @@ import {AppTheme, BaseStyle} from '@upreal/config/cssConfig';
 import {useAppDispatch} from '@upreal/store/hooks';
 import {logout} from '@upreal/store/slices/authSlice';
 import React from 'react';
-import {FlatList, SafeAreaView, View, StyleSheet, Button} from 'react-native';
+import {
+  FlatList,
+  SafeAreaView,
+  View,
+  StyleSheet,
+  Button,
+  Image,
+} from 'react-native';
 import {v4 as uuidv4} from 'uuid';
+import {IconType} from '@upreal/config/config.types';
 
 type Property = {
   id: string;
@@ -13,6 +21,7 @@ type Property = {
   address: string;
   units: [];
   totalIncome: number;
+  image: string;
 };
 type Unit = {
   unitNumber: string;
@@ -28,7 +37,7 @@ enum LeaseType {
 
 const properties = [
   {
-    name: '1000 Main St',
+    name: 'Property Name',
     address: '1000 Main St, Bangalore, Karnataka 560001',
     units: [
       {
@@ -51,9 +60,20 @@ const properties = [
 type PropertyProps = {item: Property};
 
 const PropertyItem = ({item}: PropertyProps) => (
-  <View style={styles.item}>
-    <Typography variant={'h5'}>{item.name}</Typography>
-    <Typography variant={'subtitle-1'}>{item.address}</Typography>
+  <View style={[styles.item, styles.elevation]}>
+    <Image
+      style={styles.image}
+      source={require('@upreal/assets/images/villa_1.jpg')}
+    />
+    <Typography variant={'h6'}>{item.name}</Typography>
+
+    <Typography variant={'subtitle-4'}>{item.address}</Typography>
+    <Typography variant={'subtitle-2'}>
+      Monthly Income:{item.totalIncome}
+    </Typography>
+    <Typography variant={'subtitle-2'}>Vacant Units:</Typography>
+    <Typography variant={'subtitle-2'}>Expired Leases:</Typography>
+    <Typography variant={'subtitle-2'}>Needs Renewal Soon:</Typography>
   </View>
 );
 
@@ -68,7 +88,7 @@ const MyPropertiesScreen = () => {
         keyExtractor={item => item.address}
       />
 
-      <View style={{marginTop: 40, width: '100%'}}>
+      <View style={{marginTop: 5, width: '100%'}}>
         <AppButton
           title={'Sign out'}
           onPress={() => dispatch(logout())}
@@ -84,12 +104,22 @@ const styles = StyleSheet.create({
     marginTop: '5%',
   },
   item: {
-    //width: '100%',
-    //alignItems: 'center',
     marginHorizontal: 15,
-    borderWidth: 2,
+    borderRadius: 10,
     borderColor: AppTheme?.fontColor1,
-    padding: 10,
+    backgroundColor: 'white',
+  },
+  image: {
+    borderTopLeftRadius: 10,
+    borderTopRightRadius: 10,
+    marginBottom: '3%',
+    resizeMode: 'cover',
+    height: 180,
+    width: 380,
+  },
+  elevation: {
+    shadowColor: '#21130d',
+    elevation: 20,
   },
 });
 
