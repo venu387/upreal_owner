@@ -8,7 +8,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "generate": "openapi --input http://localhost:5000/swagger/index.json --output ./src/api/openapi --client axios"
   },
   "dependencies": {
     "@react-native-firebase/app": "^18.7.3",
@@ -25,6 +26,7 @@
     "react-native-gesture-handler": "^2.14.0",
     "react-native-safe-area-context": "^4.8.2",
     "react-native-screens": "^3.29.0",
+    "react-native-toast-notifications": "^3.4.0",
     "react-native-vector-icons": "^10.0.3",
     "react-navigation": "^5.0.0",
     "react-query": "^3.39.3",
@@ -49,6 +51,7 @@
     "babel-plugin-module-resolver": "^5.0.0",
     "eslint": "^8.19.0",
     "jest": "^29.6.3",
+    "openapi-typescript-codegen": "^0.26.0",
     "prettier": "2.8.8",
     "react-test-renderer": "18.2.0",
     "typescript": "5.0.4"

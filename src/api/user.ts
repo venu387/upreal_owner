@@ -1,14 +1,31 @@
-import {UserInfo} from '@upreal/store/slices/authSlice';
-import axiosInstance from './index';
+import {upRealApiInstance} from '@upreal/lib/axios';
+import {UserDto} from './user.types';
 
 const getCurrentUser = async () => {
-  const response = await axiosInstance.get('/v1/user');
-  return response.data;
+  try {
+    const response = await upRealApiInstance.get('/user');
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-const createUser = async (user: UserInfo) => {
-  const response = await axiosInstance.post('/v1/user', user);
-  return response.data;
+const createUser = async (user: UserDto) => {
+  try {
+    const response = await upRealApiInstance.post('/user', user);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
-export {getCurrentUser, createUser};
+const updateUser = async (user: UserDto) => {
+  try {
+    const response = await upRealApiInstance.put('/user', user);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export {getCurrentUser, createUser, updateUser};

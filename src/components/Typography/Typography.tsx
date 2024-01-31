@@ -1,3 +1,4 @@
+import {colors} from '@upreal/config/cssConfig';
 import React from 'react';
 import {Text} from 'react-native';
 
@@ -6,14 +7,12 @@ const typographyStyles = new Map<string, any>([
     'h1',
     {
       fontSize: 72,
-      fontWeight: '200',
     },
   ],
   [
     'h2',
     {
       fontSize: 64,
-      fontWeight: '200',
       lineHeight: 80,
     },
   ],
@@ -21,14 +20,12 @@ const typographyStyles = new Map<string, any>([
     'h3',
     {
       fontSize: 48,
-      fontWeight: '200',
     },
   ],
   [
     'h4',
     {
       fontSize: 32,
-      fontWeight: '200',
       lineHeight: 40,
     },
   ],
@@ -36,7 +33,6 @@ const typographyStyles = new Map<string, any>([
     'h5',
     {
       fontSize: 28,
-      fontWeight: '200',
     },
   ],
   [
@@ -204,7 +200,9 @@ export const Typography = (props: TypographyProps) => {
   const TypographyClass = typographyStyles.get(variant);
 
   return (
-    <Text style={[TypographyClass, styles]} onPress={onPress}>
+    <Text
+      style={[TypographyClass, styles, {color: colors['slate-500']}]}
+      onPress={onPress}>
       {children}
     </Text>
   );

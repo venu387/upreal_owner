@@ -2,13 +2,14 @@ import {useState} from 'react';
 import {SafeAreaView, View, Text, StyleSheet, Alert} from 'react-native';
 import {AppButton} from '@upreal/components/AppButton/AppButton';
 import {TextField} from '@upreal/components/TextInput/TextInput';
-import {resetPassword, generateOtp, AuthState} from '../store/slices/authSlice';
+import {resetPassword, generateOtp} from '../store/slices/authSlice';
 import {AppTheme} from '@upreal/config/cssConfig';
 import {RootState} from '@upreal/store/store';
 import {BaseStyle} from '@upreal/config/cssConfig';
 import React from 'react';
 import {IconType} from '@upreal/config/config.types';
 import {useAppDispatch, useAppSelector} from '@upreal/store/hooks';
+import {getUnixDateNow} from '@upreal/util/date-helper';
 
 const ForgotPasswordScreen = ({navigation}: any) => {
   const [currentStep, setCurrentStep] = useState<
@@ -32,7 +33,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
 
   const verifyOtp = () => {
     if (otp?.code?.toString() === userOtp) {
-      if (otp?.expiry && new Date().valueOf() > otp?.expiry) {
+      if (otp?.expiry && getUnixDateNow() > otp?.expiry) {
         Alert.alert('OTP Expired');
         return;
       }
@@ -44,7 +45,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
   };
 
   const cancel = () => {
-    navigation.navigate('Login');
+    navigation.navigate('LogIn');
   };
 
   const checkResetPassword = () => {
@@ -52,7 +53,7 @@ const ForgotPasswordScreen = ({navigation}: any) => {
       Alert.alert('Passwords do not match');
     } else {
       dispatch(resetPassword({password, newPassword}));
-      navigation.navigate('Login');
+      navigation.navigate('LogIn');
     }
   };
   return (
@@ -166,11 +167,9 @@ const styles = StyleSheet.create({
   },
   submitButtonView: {marginTop: 40},
   loginButton: {
-    width: '90%',
     ...BaseStyle.primaryButton,
   },
   cancelButton: {
-    width: '90%',
     ...BaseStyle.secondraryButton,
   },
   loginText: {
